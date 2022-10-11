@@ -120,49 +120,55 @@ export default function SkeletonPlaceholder({
   );
 
   return layout?.width && layout?.height ? (
-    <MaskedView
-      style={{ height: layout.height, width: layout.width }}
-      maskElement={
-        <View
-          style={{
-            backgroundColor: "transparent",
-          }}
-        >
-          {getChildren(children)}
-        </View>
-      }
+    <View
+      onLayout={(event) => {
+        setLayout(event.nativeEvent.layout);
+      }}
     >
-      <View style={{ flexGrow: 1, backgroundColor }} />
-      {speed > 0 && (
-        <Animated.View
-          style={[
-            {
-              flexDirection: "row",
-            },
-            absoluteTranslateStyle,
-          ]}
-        >
-          <MaskedView
-            style={StyleSheet.absoluteFill}
-            maskElement={
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={[StyleSheet.absoluteFill]}
-                colors={["transparent", "black", "transparent"]}
-              />
-            }
+      <MaskedView
+        style={{ height: layout.height, width: layout.width }}
+        maskElement={
+          <View
+            style={{
+              backgroundColor: "transparent",
+            }}
           >
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                { backgroundColor: highlightColor },
-              ]}
-            ></View>
-          </MaskedView>
-        </Animated.View>
-      )}
-    </MaskedView>
+            {getChildren(children)}
+          </View>
+        }
+      >
+        <View style={{ flexGrow: 1, backgroundColor }} />
+        {speed > 0 && (
+          <Animated.View
+            style={[
+              {
+                flexDirection: "row",
+              },
+              absoluteTranslateStyle,
+            ]}
+          >
+            <MaskedView
+              style={StyleSheet.absoluteFill}
+              maskElement={
+                <LinearGradient
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={[StyleSheet.absoluteFill]}
+                  colors={["transparent", "black", "transparent"]}
+                />
+              }
+            >
+              <View
+                style={[
+                  StyleSheet.absoluteFill,
+                  { backgroundColor: highlightColor },
+                ]}
+              ></View>
+            </MaskedView>
+          </Animated.View>
+        )}
+      </MaskedView>
+    </View>
   ) : (
     <View
       onLayout={(event) => {
